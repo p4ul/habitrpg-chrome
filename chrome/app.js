@@ -167,12 +167,19 @@ var App = {
 
 		var score = !data.score ? 0 : data.score.toFixed(3),
 			imgVersion = !data.score ? '' : (score < 0 ? '-down' : '-up'),
-			notification = webkitNotifications.createNotification(
+			notification;
+		
+		if(score === 0) {
+			return;
+		}
+		
+		 notification = webkitNotifications.createNotification(
 			"/img/icon-48" + imgVersion + ".png",
 			'HabitRPG',
 			data.message ? data.message.replace('{score}', score) :
 			('You '+(score < 0 ? 'lost' : 'gained')+' '+score+' '+(score < 0 ? 'HP! Lets go...' : 'Exp/Gold! Keep up!'))
 		);
+			
 		notification.show();
 		setTimeout(function(){notification.cancel();}, App.notificationShowTime);
 	},
